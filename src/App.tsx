@@ -1,58 +1,10 @@
-const contactLinks = [
-  { label: 'WhatsApp', description: 'Vamos conversar?', href: 'https://wa.me/5564981621002', icon: '✳', external: true },
-  { label: 'Instagram', description: 'Acompanhe meu trabalho', href: 'https://www.instagram.com/caellinecosta/', icon: '◎', external: true },
-  { label: 'E-mail', description: 'Envie uma mensagem', href: 'mailto:reabilitarfisioemovimento@gmail.com', icon: '✉', external: false },
-];
-
-const qualifications = [
-  'Reabilitação em Neuropediatria',
-  'Transtornos do Neurodesenvolvimento',
-  'Therapy Taping — formação básica e avançada',
-  'PediaSuit — formação básica e terapia intensiva com gaiola de habilidades',
-];
-
-const areas = [
-  'Estimulação precoce',
-  'Atrasos do desenvolvimento neuropsicomotor',
-  'Transtorno do Espectro Autista (TEA)',
-  'Síndrome de Down (Trissomia 21)',
-  'Síndromes neurológicas',
-];
-
-function Section({ eyebrow, title, children, id }: { eyebrow: string; title: string; children: React.ReactNode; id?: string }) {
-  return <section className="info-section" id={id}><p className="eyebrow">{eyebrow}</p><h2>{title}</h2>{children}</section>;
-}
-
-export default function App() {
-  return (
-    <div className="site-shell">
-      <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
-      <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Voltar ao início"><img src="/NFC_CAELLINE/assets/logo-original.jpeg" alt="Reabilitar Fisio e Movimento" /></a>
-        <a className="header-contact" href="https://wa.me/5564981621002" target="_blank" rel="noopener noreferrer">Entre em contato <span aria-hidden="true">↗</span></a>
-      </header>
-
-      <main id="conteudo">
-        <section className="hero" id="inicio" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow">Fisioterapia neurofuncional pediátrica · Minaçu, GO</p>
-            <h1 id="hero-title">Cada conquista merece ser <em>celebrada.</em></h1>
-            <p className="lead">Olá! Sou Caelline Costa Jardim, fisioterapeuta neurofuncional pediátrica. Meu trabalho é dedicado ao desenvolvimento, à autonomia e às conquistas de cada criança, respeitando seu tempo e sua individualidade.</p>
-            <div className="hero-actions"><a className="button button-primary" href="https://wa.me/5564981621002" target="_blank" rel="noopener noreferrer">Conversar pelo WhatsApp <span aria-hidden="true">↗</span></a><a className="button button-secondary" href="#sobre">Conheça meu trabalho</a></div>
-          </div>
-          <div className="portrait-frame"><img src="/NFC_CAELLINE/assets/caelline.jpeg" alt="Retrato profissional de Caelline Costa Jardim" fetchPriority="high" /><div className="portrait-note">Desenvolvimento <span>·</span> Autonomia <span>·</span> Conquista</div></div>
-        </section>
-
-        <div className="content-grid" id="sobre">
-          <Section eyebrow="Minha trajetória" title="Formação e capacitação"><p>O cuidado começa com escuta, estudo e atenção às necessidades de cada criança e sua família.</p><ul className="detail-list">{qualifications.map(item => <li key={item}>{item}</li>)}</ul></Section>
-          <Section eyebrow="Como trabalho" title="Abordagem terapêutica"><p>Uma atuação que valoriza a participação da criança, o vínculo com a família e o desenvolvimento de habilidades no dia a dia.</p><div className="highlight"><span className="highlight-label">Metodologia</span><strong>DIR/Floortime</strong></div></Section>
-        </div>
-
-        <Section eyebrow="Áreas de atuação" title="Cuidado em diferentes etapas do desenvolvimento" id="atuacao"><p>Atendimento voltado às necessidades do desenvolvimento infantil, incluindo:</p><ul className="area-list">{areas.map(item => <li key={item}>{item}</li>)}</ul></Section>
-
-        <section className="contact-section" aria-labelledby="contact-title"><div><p className="eyebrow">Vamos nos conectar?</p><h2 id="contact-title">Estou aqui para conversar.</h2><p>Se quiser saber mais sobre meu trabalho, escolha o canal que for melhor para você.</p><p className="location">Atuação em Minaçu, Goiás.</p></div><div className="contact-list">{contactLinks.map(link => <a key={link.label} href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noopener noreferrer' : undefined}><span className="contact-symbol" aria-hidden="true">{link.icon}</span><span><strong>{link.label}</strong><small>{link.description}</small></span><span className="contact-arrow" aria-hidden="true">↗</span></a>)}</div></section>
-      </main>
-      <footer>© {new Date().getFullYear()} Caelline Costa Jardim · Reabilitar Fisio e Movimento</footer>
-    </div>
-  );
-}
+import { useState } from 'react';
+import portrait from '../assets/caelline.jpeg';
+import logo from '../assets/logo-original.jpeg';
+const wa='https://wa.me/5564981621002?text=Ol%C3%A1%2C%20Caelline!%20Gostaria%20de%20saber%20mais%20sobre%20o%20atendimento.';
+const formations=['Reabilitação em Neuropediatria','Transtornos do Neurodesenvolvimento','Therapy Taping — formação básica e avançada','PediaSuit — formação básica e terapia intensiva com gaiola de habilidades'];
+const areas=['Estimulação precoce','Atrasos do desenvolvimento neuropsicomotor','Transtorno do Espectro Autista (TEA)','Síndrome de Down','Hipotonia','Condições neurológicas pediátricas'];
+export default function App(){const [notice,setNotice]=useState('');
+async function share(){try{if(navigator.share)await navigator.share({title:'Caelline Costa Jardim',text:'Fisioterapia neurofuncional pediátrica em Minaçu–GO',url:location.href});else{await navigator.clipboard.writeText(location.href);setNotice('Link copiado! Agora é só compartilhar.');}}catch(e){if(!(e instanceof DOMException && e.name==='AbortError'))setNotice('Copie o endereço do site para compartilhar.');}}
+function save(){const card='BEGIN:VCARD\r\nVERSION:3.0\r\nFN:Caelline Costa Jardim\r\nORG:Reabilitar Fisio e Movimento\r\nTITLE:Fisioterapeuta neurofuncional pediátrica\r\nTEL;TYPE=CELL:+5564981621002\r\nEMAIL:reabilitarfisioemovimento@gmail.com\r\nADR:;;Minaçu;GO;;;Brasil\r\nEND:VCARD\r\n';const url=URL.createObjectURL(new Blob([card],{type:'text/vcard;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='caelline-costa-jardim.vcf';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);setNotice('Contato baixado. Abra o arquivo para salvar na agenda.');}
+return <><a className="skip" href="#conteudo">Pular para o conteúdo</a><header><a href="#inicio" className="brand"><img src={logo} alt="Caelline Costa Jardim — Reabilitar Fisio e Movimento"/></a><nav aria-label="Navegação principal"><a href="#sobre">Sobre</a><a href="#atuacao">Atuação</a><a href="#formacao">Formação</a></nav><a className="small-cta" href={wa} target="_blank" rel="noreferrer">Vamos conversar ↗</a></header><main id="conteudo"><section className="hero" id="inicio"><div className="hero-text"><span className="pill">✦ Cuidado que acolhe. Movimento que transforma.</span><p className="eyebrow">FISIOTERAPIA NEUROFUNCIONAL PEDIÁTRICA</p><h1>Pequenos passos.<br/><em>Grandes conquistas.</em></h1><p className="intro">Cada criança tem seu jeito de descobrir o mundo. Um cuidado atento ao desenvolvimento, às conexões e ao potencial de cada uma.</p><a className="button primary" href={wa} target="_blank" rel="noreferrer">Conversar pelo WhatsApp <span>↗</span></a><a className="text-link" href="#sobre">Conheça a Caelline ↓</a><div className="values"><span>Desenvolvimento</span><b>♥</b><span>Conexão</span><b>♥</b><span>Potencial</span></div></div><div className="hero-art"><span className="flower">✿</span><div className="portrait"><img src={portrait} alt="Caelline Costa Jardim, fisioterapeuta" fetchPriority="high"/></div><span className="star">✧</span><div className="name-tag"><strong>Caelline Costa Jardim</strong><span>Reabilitar Fisio e Movimento</span><small>Minaçu · Goiás</small></div></div></section><section id="sobre" className="about"><div><p className="eyebrow">PRAZER, SOU A CAELLINE</p><h2>Um olhar carinhoso para<br/>cada possibilidade.</h2></div><div><p>Sou Caelline Costa Jardim, fisioterapeuta neurofuncional pediátrica. Meu trabalho é dedicado ao desenvolvimento infantil, respeitando o tempo, a individualidade e as necessidades de cada criança.</p><p>Escuta, vínculo e participação da família fazem parte desse caminho. Porque cada nova descoberta merece ser acolhida e celebrada.</p></div></section><section id="atuacao" className="areas"><p className="eyebrow">ÁREAS DE ATUAÇÃO</p><h2>Cuidar de cada fase.<br/><em>Valorizar cada conquista.</em></h2><p className="section-intro">Atenção às diferentes necessidades do desenvolvimento infantil.</p><div className="area-grid">{areas.map((a,i)=><article key={a}><span className={'area-icon color-'+i}>{['☀','♧','✧','♡','〰','✿'][i]}</span><h3>{a}</h3></article>)}</div></section><section id="formacao" className="training"><div><p className="eyebrow">CONHECIMENTO QUE SE TORNA CUIDADO</p><h2>Formações e<br/>capacitações</h2><p>Estudo e sensibilidade para acompanhar o desenvolvimento de cada criança.</p><div className="approach"><span>COMO TRABALHO</span><h3>DIR/Floortime</h3><p>Uma abordagem que valoriza a conexão, a interação e a individualidade no desenvolvimento.</p></div></div><ol>{formations.map((f,i)=><li key={f}><span>0{i+1}</span><h3>{f}</h3></li>)}</ol></section><section className="contact" id="contato"><span className="contact-flower">✿</span><p className="eyebrow">VAMOS DAR O PRIMEIRO PASSO?</p><h2>O cuidado começa<br/>com uma conversa.</h2><p>Para conhecer o atendimento ou combinar um horário,<br/>fale comigo pelo WhatsApp.</p><a className="button primary" href={wa} target="_blank" rel="noreferrer">Falar com a Caelline ↗</a><div className="contact-links"><a href="tel:+5564981621002"><strong>Telefone</strong><span>(64) 98162-1002 ↗</span></a><a href="https://www.instagram.com/caellinecosta/" target="_blank" rel="noreferrer"><strong>Instagram</strong><span>@caellinecosta ↗</span></a><a href="mailto:reabilitarfisioemovimento@gmail.com"><strong>E-mail</strong><span>reabilitarfisioemovimento@gmail.com ↗</span></a></div><div className="tools"><button onClick={save}>↓ Salvar contato</button><button onClick={share}>↗ Compartilhar cartão</button></div><p className="notice" role="status">{notice}</p></section></main><footer><img src={logo} alt="Reabilitar Fisio e Movimento"/><span>Caelline Costa Jardim<br/><small>Fisioterapia neurofuncional pediátrica · Minaçu–GO</small></span><a href="#inicio">Voltar ao início ↑</a></footer></>}
